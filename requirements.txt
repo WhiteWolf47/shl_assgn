@@ -3,7 +3,7 @@ protobuf
 pinecone
 langchain
 langchain-mistralai
-lagnchain-groq
+langchain-groq
 langchain-google-genai
 langchain_community # For document loaders, text splitters
 streamlit # Or chainlit for chat.py
