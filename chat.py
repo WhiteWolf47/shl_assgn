@@ -88,7 +88,7 @@ else:
             if query_text:
                 st.text_area("Scraped Content:", value=query_text, height=200)'''
 
-if st.button("Get Recommendations") and input_method=="Text" and query_text or st.button("Get Recommendations") and input_method=="URL":
+if (st.button("Get Recommendations") and input_method=="Text" and query_text) or (st.button("Get Recommendations") and input_method=="URL"):
     with st.spinner("Searching assessments..."):
 
         if input_method == "URL":
