@@ -1,5 +1,7 @@
 python-dotenv
 protobuf==3.20.3
+pydantic
+fastapi
 pinecone
 langchain
 langchain-mistralai

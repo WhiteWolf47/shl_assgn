@@ -89,7 +89,6 @@ if st.button("Get Recommendations"):
     if input_method == "URL" and url:
         with st.spinner("Scraping job description..."):
             query_text = scrape_job_description(url)
-            st.text(query_text)
             if query_text:
                 st.session_state.query_text = query_text
                 st.text_area("Scraped Content:", value=query_text, height=200)
