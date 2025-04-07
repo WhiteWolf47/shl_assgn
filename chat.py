@@ -82,14 +82,21 @@ if input_method == "Text":
     query_text = st.text_area("Paste Job Description:", height=200)
 else:
     url = st.text_input("Enter Job Posting URL:")
-    if url:
+    '''if url:
         with st.spinner("Scraping job description..."):
             query_text = scrape_job_description(url)
             if query_text:
-                st.text_area("Scraped Content:", value=query_text, height=200)
+                st.text_area("Scraped Content:", value=query_text, height=200)'''
 
 if st.button("Get Recommendations") and query_text:
     with st.spinner("Searching assessments..."):
+
+        if input_method == "URL":
+            with st.spinner("Scraping job description..."):
+                query_text = scrape_job_description(url)
+                if query_text:
+                    st.text_area("Scraped Content:", value=query_text, height=200)
+
         # Retrieve context from Pinecone
         results = rag_query(query_text)
         
