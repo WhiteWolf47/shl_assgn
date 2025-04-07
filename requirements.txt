@@ -1,5 +1,5 @@
 python-dotenv
-protobuf
+protobuf==3.20.3
 pinecone
 langchain
 langchain-mistralai
