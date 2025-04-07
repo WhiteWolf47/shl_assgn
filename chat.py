@@ -78,33 +78,35 @@ def format_recommendations(context, query):
 input_method = st.radio("Input Method:", ["Text", "URL"])
 
 query_text = ""
+url = ""
+
 if input_method == "Text":
     query_text = st.text_area("Paste Job Description:", height=200)
 else:
-    st.text("hi1")
     url = st.text_input("Enter Job Posting URL:")
-    st.text("hi2")
-    if url:
-        st.text("hi3")
+
+if st.button("Get Recommendations"):
+    if input_method == "URL" and url:
         with st.spinner("Scraping job description..."):
             query_text = scrape_job_description(url)
             if query_text:
+                st.session_state.query_text = query_text
                 st.text_area("Scraped Content:", value=query_text, height=200)
+            else:
+                st.error("Failed to scrape job description from URL")
+    elif not query_text:
+        st.warning("Please enter a job description or URL")
+        st.stop()
 
-if st.button("Get Recommendations") and query_text:
-    with st.spinner("Searching assessments..."):
-
-        # Retrieve context from Pinecone
-        results = rag_query(query_text)
-        
-        # Format context for LLM
-        context = "\n".join([
-            f"Name: {res['title']}\nURL: {res['link']}\n"
-            f"Remote: {res['remote_testing']}\nAdaptive: {res['adaptive_irt']}\n"
-            f"Details: {res['details']}\nType: {res['test_type']}"
-            for res in results
-        ])
-        
-        # Generate and display recommendations
-        response = format_recommendations(context, query_text)
-        st.markdown(response)
+    if query_text:
+        with st.spinner("Searching assessments..."):
+            # Rest of your processing code
+            results = rag_query(query_text)
+            context = "\n".join([
+                f"Name: {res['title']}\nURL: {res['link']}\n"
+                f"Remote: {res['remote_testing']}\nAdaptive: {res['adaptive_irt']}\n"
+                f"Details: {res['details']}\nType: {res['test_type']}"
+                for res in results
+            ])
+            response = format_recommendations(context, query_text)
+            st.markdown(response)
