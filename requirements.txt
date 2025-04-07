@@ -1,0 +1,20 @@
+python-dotenv
+protobuf
+pinecone
+langchain
+langchain-mistralai
+lagnchain-groq
+langchain-google-genai
+langchain_community # For document loaders, text splitters
+streamlit # Or chainlit for chat.py
+selenium
+requests
+beautifulsoup4
+tiktoken
+crawl4ai # For simplified web content fetching as markdown
+litellm # For interacting with Groq LLM
+groq # Groq Python client (dependency for litellm's Groq integration)
+pydantic # For data validation
+unstructured # For loading markdown
+markdown # Dependency for unstructured
+# Add any other specific dependencies unstructured might require for markdown

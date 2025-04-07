@@ -1,0 +1,5 @@
+.qodo
+.env
+shl_env
+.streamlit/secrets.toml
+.streamlit
