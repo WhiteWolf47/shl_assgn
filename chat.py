@@ -10,13 +10,11 @@ from langchain_mistralai.embeddings import MistralAIEmbeddings
 from pinecone import Pinecone
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# ── Streamlit Page Config MUST BE FIRST ───────────────────────────────────────
+st.set_page_config(page_title="SHL Assessment Recommender")
+st.title("SHL Assessment Recommendation System")
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-'''PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_INDEX = os.getenv("PINECONE_INDEX")
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")'''
 
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
 PINECONE_INDEX = st.secrets["PINECONE_INDEX"]
@@ -76,9 +74,6 @@ def format_recommendations(context, query):
     chain = prompt | llm
     return chain.invoke({"context": context, "query": query}).content
 
-# ── Streamlit UI ──────────────────────────────────────────────────────────────
-st.set_page_config(page_title="SHL Assessment Recommender")
-st.title("SHL Assessment Recommendation System")
 
 input_method = st.radio("Input Method:", ["Text", "URL"])
 
