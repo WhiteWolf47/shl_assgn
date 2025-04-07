@@ -16,7 +16,7 @@ st.title("SHL Assessment Recommendation System")
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
-LANGSMITH_TRACING=true
+LANGSMITH_TRACING=True
 LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
 LANGSMITH_API_KEY= st.secrets["LANGSMITH_API_KEY"]
 LANGSMITH_PROJECT="pr-warmhearted-recreation-31"
