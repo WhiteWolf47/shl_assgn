@@ -19,7 +19,7 @@ st.title("SHL Assessment Recommendation System")
 LANGSMITH_TRACING=true
 LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
 LANGSMITH_API_KEY= st.secrets["LANGSMITH_API_KEY"]
-LANGSMITH_PROJECT="pr-charming-trinket-12"
+LANGSMITH_PROJECT="pr-warmhearted-recreation-31"
 
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
 PINECONE_INDEX = st.secrets["PINECONE_INDEX"]
