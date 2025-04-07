@@ -85,7 +85,7 @@ else:
     url = st.text_input("Enter Job Posting URL:")
     st.text("hi2")
     if url:
-        print("hi")
+        st.text("hi3")
         with st.spinner("Scraping job description..."):
             query_text = scrape_job_description(url)
             if query_text:
