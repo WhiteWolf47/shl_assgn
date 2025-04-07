@@ -81,9 +81,9 @@ query_text = ""
 if input_method == "Text":
     query_text = st.text_area("Paste Job Description:", height=200)
 else:
-    print("hi1")
+    st.text("hi1")
     url = st.text_input("Enter Job Posting URL:")
-    print("hi2")
+    st.text("hi2")
     if url:
         print("hi")
         with st.spinner("Scraping job description..."):
