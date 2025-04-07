@@ -83,6 +83,7 @@ if input_method == "Text":
 else:
     url = st.text_input("Enter Job Posting URL:")
     if url:
+        print("hi")
         with st.spinner("Scraping job description..."):
             query_text = scrape_job_description(url)
             if query_text:
