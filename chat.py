@@ -7,6 +7,8 @@ from langchain_community.vectorstores import Pinecone
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from langchain_mistralai.embeddings import MistralAIEmbeddings
+from langsmith import Client
+from langchain_core.tracers.context import tracing_enabled
 from pinecone import Pinecone
 from dotenv import load_dotenv
 
@@ -29,6 +31,7 @@ MISTRAL_API_KEY = st.secrets["MISTRAL_API_KEY"]
 EMBED_MODEL = "mistral-embed"
 
 # Initialize components
+client = Client()
 pc = Pinecone(api_key=PINECONE_API_KEY)
 index = pc.Index(PINECONE_INDEX)
 embedder = MistralAIEmbeddings(model=EMBED_MODEL)
@@ -58,26 +61,29 @@ def rag_query(query_text, top_k=10):
     return [match.metadata for match in results.matches]
 
 def format_recommendations(context, query):
-    prompt = ChatPromptTemplate.from_template("""
-    You are an SHL assessment expert. Recommend assessments based on the job requirements.
-    
-    Job Description: {query}
-    
-    Available Assessments:
-    {context}
-    
-    Format recommendations as a markdown table with columns:
-    - Assessment Name (as link)
-    - Remote Testing
-    - Adaptive/IRT
-    - Details
-    - Test Type
-    
-    Include only assessments matching the job requirements. Max 10 recommendations.
-    """)
-    
-    chain = prompt | llm
-    return chain.invoke({"context": context, "query": query}).content
+    with client.trace(name="RAG Pipeline") as trace:
+        prompt = ChatPromptTemplate.from_template("""
+        You are an SHL assessment expert. Recommend assessments based on the job requirements.
+        
+        Job Description: {query}
+        
+        Available Assessments:
+        {context}
+        
+        Format recommendations as a markdown table with columns:
+        - Assessment Name (as link)
+        - Remote Testing
+        - Adaptive/IRT
+        - Details
+        - Test Type
+        
+        Include only assessments matching the job requirements. Max 10 recommendations.
+        """)
+        
+        chain = prompt | llm
+        result = chain.invoke({"context": context, "query": query}).content
+        trace.add_outputs(outputs={"response": results})
+    return result
 
 
 input_method = st.radio("Input Method:", ["Text", "URL"])

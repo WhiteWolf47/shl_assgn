@@ -4,6 +4,7 @@ pydantic
 fastapi
 pinecone
 langchain
+langsmith
 langchain-mistralai
 langchain-groq
 langchain-google-genai
