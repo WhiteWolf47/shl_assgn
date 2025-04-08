@@ -7,8 +7,7 @@ from langchain_community.vectorstores import Pinecone
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from langchain_mistralai.embeddings import MistralAIEmbeddings
-from langsmith import Client
-from langchain_core.tracers.context import tracing_enabled
+from langsmith import Client, traceable
 from pinecone import Pinecone
 from dotenv import load_dotenv
 
@@ -60,9 +59,10 @@ def rag_query(query_text, top_k=10):
     
     return [match.metadata for match in results.matches]
 
+
+@traceable
 def format_recommendations(context, query):
-    with client.trace(name="RAG Pipeline") as trace:
-        prompt = ChatPromptTemplate.from_template("""
+    prompt = ChatPromptTemplate.from_template("""
         You are an SHL assessment expert. Recommend assessments based on the job requirements.
         
         Job Description: {query}
@@ -80,10 +80,9 @@ def format_recommendations(context, query):
         Include only assessments matching the job requirements. Max 10 recommendations.
         """)
         
-        chain = prompt | llm
-        result = chain.invoke({"context": context, "query": query}).content
-        trace.add_outputs(outputs={"response": results})
-    return result
+    chain = prompt | llm
+    return chain.invoke({"context": context, "query": query}).content
+
 
 
 input_method = st.radio("Input Method:", ["Text", "URL"])
