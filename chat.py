@@ -119,5 +119,5 @@ if st.button("Get Recommendations"):
                 for res in results
             ])
             response = format_recommendations(context, query_text)
-            st.text(len(response, type(response)))
+            st.text(len(response), type(response))
             st.markdown(response)
